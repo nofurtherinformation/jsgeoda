@@ -523,8 +523,8 @@ export default class GeoDaWasm {
    * @returns {Array} The indices of neighbors.
    */
   getNeighbors(weights, idx) {
-    const mapUid = weights.getMapUid();
-    const wUid = weights.getUid();
+    const mapUid = weights.mapUid;
+    const wUid = weights.uid;
 
     const nbrs = this.wasm.get_neighbors(mapUid, wUid, idx);
     return GeoDaWasm.parseVecInt(nbrs);
@@ -537,7 +537,7 @@ export default class GeoDaWasm {
    * @returns {Object} {arcs, targets, sources}
    */
   getConnectivity(weights) {
-    const mapUid = weights.getMapUid();
+    const mapUid = weights.mapUid;
 
     const centroids = this.getCentroids(mapUid);
     const numobs = this.getNumberObservations(mapUid);
@@ -939,8 +939,8 @@ export default class GeoDaWasm {
    * @returns {Array}
    */
   spatialLag(weights, values, isBinary, rowStandardize, includeDiagonal) {
-    const mapUid = weights.getMapUid();
-    const wUid = weights.getUid();
+    const mapUid = weights.mapUid;
+    const wUid = weights.uid;
     const data = this.toVecDouble(values);
 
     if (isBinary == null) isBinary = true;
@@ -961,8 +961,8 @@ export default class GeoDaWasm {
    * @returns {Array}
    */
   spatialRate(weights, eventValues, baseValues) {
-    const mapUid = weights.getMapUid();
-    const wUid = weights.getUid();
+    const mapUid = weights.mapUid;
+    const wUid = weights.uid;
 
     const r = this.wasm.spatial_rate(this.toVecDouble(eventValues),
       this.toVecDouble(baseValues), mapUid, wUid);
@@ -978,8 +978,8 @@ export default class GeoDaWasm {
    * @returns {Array}
    */
   spatialEmpiricalBayes(weights, eventValues, baseValues) {
-    const mapUid = weights.getMapUid();
-    const wUid = weights.getUid();
+    const mapUid = weights.mapUid;
+    const wUid = weights.uid;
 
     const r = this.wasm.spatial_eb(this.toVecDouble(eventValues),
       this.toVecDouble(baseValues), mapUid, wUid);
@@ -1128,8 +1128,8 @@ export default class GeoDaWasm {
    */
   quantileLisa(weights, k, quantile, values, permutations, permutationMethod,
     significanceCutoff, seed) {
-    const mapUid = weights.getMapUid();
-    const weightUid = weights.getUid();
+    const mapUid = weights.mapUid;
+    const weightUid = weights.uid;
 
     if (permutations == null) permutations = 999;
     if (permutationMethod == null) permutationMethod = 'lookup';
@@ -1164,8 +1164,8 @@ export default class GeoDaWasm {
    */
   callLisa(lisaFunction, weights, values, permutations, permutationMethod,
     significanceCutoff, seed) {
-    const mapUid = weights.getMapUid();
-    const weightUid = weights.getUid();
+    const mapUid = weights.mapUid;
+    const weightUid = weights.uid;
 
     if (permutations == null) permutations = 999;
     if (permutationMethod == null) permutationMethod = 'lookup';
@@ -1307,8 +1307,8 @@ export default class GeoDaWasm {
    * @returns {Object} LISA object {@link GeoDaLisa}
    */
   localMultiGeary(weights, values, permutations, permutationMethod, significanceCutoff, seed) {
-    const mapUid = weights.getMapUid();
-    const weightUid = weights.getUid();
+    const mapUid = weights.mapUid;
+    const weightUid = weights.uid;
 
     if (permutations == null) permutations = 999;
     if (permutationMethod == null) permutationMethod = 'lookup';
@@ -1346,8 +1346,8 @@ export default class GeoDaWasm {
    */
   localBiJoinCount(weights, values1, values2, permutations, permutationMethod,
     significanceCutoff, seed) {
-    const mapUid = weights.getMapUid();
-    const weightUid = weights.getUid();
+    const mapUid = weights.mapUid;
+    const weightUid = weights.uid;
 
     if (permutations == null) permutations = 999;
     if (permutationMethod == null) permutationMethod = 'lookup';
@@ -1397,8 +1397,8 @@ export default class GeoDaWasm {
    * @returns {Object} LISA object {@link GeoDaLisa}
    */
   localMultiJoinCount(weights, values, permutations, permutationMethod, significanceCutoff, seed) {
-    const mapUid = weights.getMapUid();
-    const weightUid = weights.getUid();
+    const mapUid = weights.mapUid;
+    const weightUid = weights.uid;
 
     if (permutations == null) permutations = 999;
     if (permutationMethod == null) permutationMethod = 'lookup';
@@ -1462,8 +1462,8 @@ export default class GeoDaWasm {
    */
   multiQuantileLisa(weights, ks, quantiles, values, permutations, permutationMethod,
     significanceCutoff, seed) {
-    const mapUid = weights.getMapUid();
-    const weightUid = weights.getUid();
+    const mapUid = weights.mapUid;
+    const weightUid = weights.uid;
 
     if (permutations == null) permutations = 999;
     if (permutationMethod == null) permutationMethod = 'lookup';
@@ -1603,8 +1603,8 @@ export default class GeoDaWasm {
     if (!GeoDaWasm.checkScaleMethod(scaleMethod)) return null;
     if (!GeoDaWasm.checkDistanceMethod(distanceMethod)) return null;
 
-    const mapUid = weights.getMapUid();
-    const wUid = weights.getUid();
+    const mapUid = weights.mapUid;
+    const wUid = weights.uid;
     const data = this.toVecVecDouble(values);
 
     if (minBound == null) minBound = 0;
@@ -1658,8 +1658,8 @@ export default class GeoDaWasm {
     if (!GeoDaWasm.checkScaleMethod(scaleMethod)) return null;
     if (!GeoDaWasm.checkDistanceMethod(distanceMethod)) return null;
 
-    const mapUid = weights.getMapUid();
-    const wUid = weights.getUid();
+    const mapUid = weights.mapUid;
+    const wUid = weights.uid;
     const data = this.toVecVecDouble(values);
 
     if (minBound == null) minBound = 0;
@@ -1704,8 +1704,8 @@ export default class GeoDaWasm {
     if (!GeoDaWasm.checkScaleMethod(scaleMethod)) return null;
     if (!GeoDaWasm.checkDistanceMethod(distanceMethod)) return null;
 
-    const mapUid = weights.getMapUid();
-    const wUid = weights.getUid();
+    const mapUid = weights.mapUid;
+    const wUid = weights.uid;
     const data = this.toVecVecDouble(values);
 
     if (minBoundValues == null) minBoundValues = [];
@@ -1765,8 +1765,8 @@ export default class GeoDaWasm {
     if (!GeoDaWasm.checkScaleMethod(scaleMethod)) return null;
     if (!GeoDaWasm.checkDistanceMethod(distanceMethod)) return null;
 
-    const mapUid = weights.getMapUid();
-    const wUid = weights.getUid();
+    const mapUid = weights.mapUid;
+    const wUid = weights.uid;
     const data = this.toVecVecDouble(values);
 
     if (minBoundValues == null) minBoundValues = [];
@@ -1826,8 +1826,8 @@ export default class GeoDaWasm {
     if (!GeoDaWasm.checkScaleMethod(scaleMethod)) return null;
     if (!GeoDaWasm.checkDistanceMethod(distanceMethod)) return null;
 
-    const mapUid = weights.getMapUid();
-    const wUid = weights.getUid();
+    const mapUid = weights.mapUid;
+    const wUid = weights.uid;
     const data = this.toVecVecDouble(values);
 
     if (minBoundValues == null) minBoundValues = [];
@@ -1877,8 +1877,8 @@ export default class GeoDaWasm {
     if (!GeoDaWasm.checkScaleMethod(scaleMethod)) return null;
     if (!GeoDaWasm.checkDistanceMethod(distanceMethod)) return null;
 
-    const mapUid = weights.getMapUid();
-    const wUid = weights.getUid();
+    const mapUid = weights.mapUid;
+    const wUid = weights.uid;
     const data = this.toVecVecDouble(values);
 
     if (minBoundValues == null || minBounds == null) {
@@ -1934,8 +1934,8 @@ export default class GeoDaWasm {
     if (!GeoDaWasm.checkScaleMethod(scaleMethod)) return null;
     if (!GeoDaWasm.checkDistanceMethod(distanceMethod)) return null;
 
-    const mapUid = weights.getMapUid();
-    const wUid = weights.getUid();
+    const mapUid = weights.mapUid;
+    const wUid = weights.uid;
     const data = this.toVecVecDouble(values);
 
     if (minBoundValues == null || minBounds == null) {
@@ -1991,8 +1991,8 @@ export default class GeoDaWasm {
     if (!GeoDaWasm.checkScaleMethod(scaleMethod)) return null;
     if (!GeoDaWasm.checkDistanceMethod(distanceMethod)) return null;
 
-    const mapUid = weights.getMapUid();
-    const wUid = weights.getUid();
+    const mapUid = weights.mapUid;
+    const wUid = weights.uid;
     const data = this.toVecVecDouble(values);
 
     if (minBoundValues == null) minBoundValues = [];
