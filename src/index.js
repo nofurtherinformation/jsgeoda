@@ -2,9 +2,8 @@
 // https://gist.github.com/surma/b2705b6cca29357ebea1c9e6e15684cc
 import jsgeoda from './jsgeoda';
 import GeoDaWasm from './geoda-proxy';
-import GeodaWorkerProxy from './GeodaWorkerProxy';
-import * as Comlink from "https://unpkg.com/comlink/dist/esm/comlink.mjs";
-import Blob from ("cross-blob");
+import {GeodaWorkerProxy} from './geoda-worker';
+import * as Comlink from "comlink";
 // jsgeoda_wasm is a global variable that caches the return from
 // initialization of libgeoda WASM module
 // var jsgeoda_wasm = null;
@@ -18,30 +17,26 @@ import Blob from ("cross-blob");
  *
  * @returns {Object} geoda - a GeoDaWasm instance built from WASM
  */
-function New({
-  useWorker=false
-}) {
-  if (useWorker){
-    const blob = new Blob([
-        'importScripts("https://unpkg.com/comlink/dist/umd/comlink.js");var exports={};',
-        jsgeoda.toString(), 
-        GeodaWorkerProxy,
-        'const geodaWorker = new GeodaWorkerProxy();Comlink.expose(geodaWorker);'
-      ], 
-      { type: 'text/javascript' });
-    const url = URL.createObjectURL(blob);
-    const worker =  new Worker(url);
-    return Comlink.wrap(worker);
-  } else {
-    return new Promise((resolve) => {
-      jsgeoda().then((wasm) => {
-        // jsgeoda_wasm = wasm;
-        const geoda = new GeoDaWasm(wasm);
-        resolve(geoda);
-      });
+function New(){
+  return new Promise((resolve) => {
+    jsgeoda().then((wasm) => {
+      // jsgeoda_wasm = wasm;
+      const geoda = new GeoDaWasm(wasm);
+      resolve(geoda);
     });
+  });
+}
 
-  }
+function NewWorker(){
+  console.log(GeodaWorkerProxy)
+  const blob = new Blob([
+      GeodaWorkerProxy 
+    ], 
+    { type: 'text/javascript' });
+  const url = URL.createObjectURL(blob);
+  const worker =  new Worker(url);
+  return Comlink.wrap(worker);
 }
 
 exports.New = New;
+exports.NewWorker = NewWorker;

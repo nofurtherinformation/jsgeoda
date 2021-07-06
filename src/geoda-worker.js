@@ -1,4 +1,8 @@
-var GeodaWorkerProxy = `class GeodaWorkerProxy {
+const GeodaWorkerProxy = `
+var exports={};
+importScripts("https://unpkg.com/comlink/dist/umd/comlink.js", "https://unpkg.com/jsgeoda@0.2.3/lib/index.js");
+
+class GeodaWorkerProxy {
   constructor() {
     this.geoda = null;
   } 
@@ -9,8 +13,8 @@ var GeodaWorkerProxy = `class GeodaWorkerProxy {
    */
   async New() {
     if (this.geoda !== null) return true;
-    var geoda = await jsgeoda();
-    this.geoda = geoda;
+    var wasm = await exports.New();
+    this.geoda = await exports.New();
     var allFunctions = this.getAllFuncs(this.geoda);
     for (const key of allFunctions) {
       this[key] = (...args) => this.handleFunction(key, args);
@@ -74,6 +78,9 @@ var GeodaWorkerProxy = `class GeodaWorkerProxy {
       return this.geoda[fn](...args);
     }
   }
-}`
+}
 
-exports["GeodaWorkerProxy"] = GeodaWorkerProxy; 
+const geodaWorker = new GeodaWorkerProxy();
+Comlink.expose(geodaWorker)`
+
+exports['GeodaWorkerProxy'] = GeodaWorkerProxy
