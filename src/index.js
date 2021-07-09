@@ -28,7 +28,6 @@ function New(){
 }
 
 function NewWorker(){
-  console.log(GeodaWorkerProxy)
   const blob = new Blob([
       GeodaWorkerProxy 
     ], 
