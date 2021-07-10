@@ -12,9 +12,9 @@ export default class GeoDaWeights {
   constructor(w) {
     this.isValid = w.get_is_valid();
 
-    this.uid = w.get_uid();
+    this.uid = w.uid;
 
-    this.mapUid = w.get_map_uid();
+    this.mapUid = w.mapUid;
 
     this.weightType = w.get_weight_type();
 
